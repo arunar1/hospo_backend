@@ -76,6 +76,7 @@ app.post('/',async(req,res)=>{
 
     const userid=await user.findOne(idsearch);
     console.log(userid)
+    
     try {
         if(!userid){
             return res.json({error:"user not available"});
@@ -84,7 +85,7 @@ app.post('/',async(req,res)=>{
             const token=jwt.sign({phoneno:userid.phoneno},JWT_SECRET)
             if(res.status(201)){
                 return res.json({
-                    status:'ok',data:token
+                    status:'ok',data:token,details:userid
                 })
             }
             else{
