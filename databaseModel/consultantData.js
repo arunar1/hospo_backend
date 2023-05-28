@@ -1,12 +1,16 @@
 const mongoose=require('mongoose');
 
-const hospitalInfo=new mongoose.Schema({
+const consultantInfo=new mongoose.Schema({
+        usertype:{
+            type:String,
+            required:true
+        },
         userId:{
             type:String,
             required:true
 
         },
-        hospitalname:{
+        name:{
             type:String,
             required:true
         },
@@ -16,20 +20,24 @@ const hospitalInfo=new mongoose.Schema({
             required:true,
             unique:true
         },
+        experience:{
+            type:String,
+            required:true
+        },
+        licenceId:{
+            type:String,
+            required:true
+        },
+        gender:{
+            type:String,
+            required:true
+        },
         email:{
             type:String,
             required:true,
             unique:true
         },
         password:{
-            type:String,
-            required:true
-        },
-        hospitaltype:{
-            type:String,
-            required:true
-        },
-        licenseId:{
             type:String,
             required:true
         },
@@ -47,6 +55,6 @@ const hospitalInfo=new mongoose.Schema({
     }
 }
 ); 
-const PatientModel = mongoose.model("hospital",hospitalInfo);
+const ConsultantModel = mongoose.model("consultant",consultantInfo);
 
-module.exports = PatientModel;
+module.exports = ConsultantModel;

@@ -1,6 +1,10 @@
 const mongoose=require('mongoose');
 
 const patientInfo=new mongoose.Schema({
+    usertype:{
+        type:String,
+        required:true
+        },
         userId:{
             type:String,
             required:true
@@ -13,8 +17,7 @@ const patientInfo=new mongoose.Schema({
 
         phoneno:{
             type:String,
-            required:true,
-            unique:true
+            required:true
         },
         age:{
             type:String,
@@ -26,8 +29,7 @@ const patientInfo=new mongoose.Schema({
         },
         email:{
             type:String,
-            required:true,
-            unique:true
+            required:true
         },
         password:{
             type:String,
