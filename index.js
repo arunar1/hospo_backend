@@ -53,7 +53,7 @@ app.post("/registration",async(req,res)=>{
         const oldUser=await user.findOne(phsearch)
         console.log(oldUser)
         if(oldUser){
-        return res.json({error:"user avaialable"});
+        return res.json({error:" registered already"});
         }
     
             await user.create({
@@ -89,7 +89,7 @@ if(type=='hospital')
         const oldUser=await hospital.findOne(phsearch)
         console.log(oldUser)
         if(oldUser){
-        return res.json({error:"user avaialable"});
+        return res.json({error:"registered already"});
         }
     
             await hospital.create({
@@ -124,7 +124,7 @@ if(type=='privateconsultant')
         const oldUser=await consultant.findOne(phsearch)
         console.log(oldUser)
         if(oldUser){
-        return res.json({error:"user avaialable"});
+        return res.json({error:"registered already"});
         }
         
     
@@ -164,6 +164,9 @@ app.post('/',async(req,res)=>{
     const idsearch={"phoneno":loginid}
 
     console.log(logintype)
+    if(logintype==null){
+        return res.json({message:"choose account type"})
+    }
 
     if(logintype=='patient')
     {
@@ -253,6 +256,10 @@ else if(logintype=='privateconsultant')
         
     }
 }
+
+else{
+    res.send("select account type")
+}
    
 
 
@@ -292,49 +299,4 @@ app.post("/home",(req,res)=>{
 
 
 
-
-// app.post("/",async(req,res)=>{
-//     const{email,password}=req.body;
-//     try{
-//         const check=await collection.findOne({email:email});
-        
-//         if(check){
-//             res.json("Exist")
-//         }
-//         else{
-//             res.json("not exist")
-//         }
-
-//     }catch{
-//         res.json("Not exist")
-
-//     }
-// })
-
-// app.post("/registration",async(req,res)=>{
-//     const{email,password}=req.body;
-
-//     const data={
-//         email:email,
-//         password:password
-//     }
-
-  
-
-//     try{
-//         const check=await collection.findOne({email:email});
-        
-//         if(check){
-//             res.json("Exist")
-//         }
-//         else{
-//             res.json("not exist")
-//             await collection.insertMany([data])
-//         }
-
-//     }catch{
-//         res.json("Not exist")
-
-//     }
-// })
 
