@@ -297,6 +297,77 @@ app.post("/home",(req,res)=>{
 
 
 
+app.post("/hospitalhome",(req,res)=>{
+    const token=req.body.token;
+    console.log(token)
+    try{
+        const User=jwt.verify(token,JWT_SECRET,(err,payload)=>{
+            if(err){
+                console.log('error')
+
+            }
+            else{
+                return payload
+            }
+        })
+        console.log(User)
+        const phone=User.phoneno;
+        console.log(phone)
+        const search={"phoneno":phone}
+        hospital.findOne(search)
+        .then((data)=>{
+           res.send({status:'ok',data:data})
+        })
+        .catch((error)=>{
+           res.send({staus:'error',data:error})
+        })
+    }catch(error){
+        console.log("error",error)
+    }
+    
+})
 
 
 
+
+app.post("/consultanthome",(req,res)=>{
+    const token=req.body.token;
+    console.log(token)
+    try{
+        const User=jwt.verify(token,JWT_SECRET,(err,payload)=>{
+            if(err){
+                console.log('error')
+
+            }
+            else{
+                return payload
+            }
+        })
+        console.log(User)
+        const phone=User.phoneno;
+        console.log(phone)
+        const search={"phoneno":phone}
+        consultant.findOne(search)
+        .then((data)=>{
+           res.send({status:'ok',data:data})
+        })
+        .catch((error)=>{
+           res.send({staus:'error',data:error})
+        })
+    }catch(error){
+        console.log("error",error)
+    }
+    
+})
+
+
+app.get("/getinfo",async(req,res)=>{
+try {
+    const allusers=await user.find({});
+    res.send(allusers);
+    
+} catch (error) {
+    console.log(error)
+    
+}
+})
