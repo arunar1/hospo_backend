@@ -20,7 +20,7 @@ const consultantInfo=new mongoose.Schema({
             required:true,
             unique:true
         },
-        experience:{
+        category:{
             type:String,
             required:true
         },

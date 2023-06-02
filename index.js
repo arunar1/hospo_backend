@@ -133,7 +133,7 @@ if(type=='privateconsultant')
                 userId:data.cphone,
                 name:data.cname,
                 phoneno:data.cphone,
-                experience:data.cexperience,
+                category:data.ccategory,
                 licenceId:data.clicence,
                 gender:data.cgender,
                 email:data.cemail,
