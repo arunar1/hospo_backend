@@ -2,12 +2,15 @@ const express=require('express');
 const app=express();
 const cors=require("cors");
 const bcrypt=require('bcryptjs')
+const dotenv=require('dotenv')
+dotenv.config()
+
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({extended:true}))
 
 const jwt=require("jsonwebtoken");
-const JWT_SECRET="gugcdeygrgvfhvk2334t4k3z000{}%&)56iyytitilu"
+const JWT_SECRET=process.env.jwt_code
 
 
 app.listen(5000,()=>{
@@ -18,7 +21,7 @@ app.listen(5000,()=>{
 const mongoose=require('mongoose');
 const bodyParser = require('body-parser');
 
-const mongourl='mongodb+srv://arunar123az:Arunar123az@cluster0.l6626bf.mongodb.net/?retryWrites=true&w=majority';
+const mongourl=process.env.mong_url;
 
 mongoose.connect(mongourl,{
     useNewUrlParser:true,
