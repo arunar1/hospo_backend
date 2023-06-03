@@ -364,13 +364,20 @@ app.post("/consultanthome",(req,res)=>{
 })
 
 
-app.get("/getinfo",async(req,res)=>{
+app.get("/districtinfo",async(req,res)=>{
 try {
-    const allusers=await user.find({});
-    res.send(allusers);
+    
+    const allusers=await hospital.find({});
+   const dis= allusers.map((item)=>{
+        return item.district
+    })
+
+    res.send(dis);
     
 } catch (error) {
     console.log(error)
     
 }
 })
+
+
