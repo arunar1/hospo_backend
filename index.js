@@ -41,7 +41,7 @@ const consultant=require('./databaseModel/consultantData')
 app.post("/registration",async(req,res)=>{
     const data=req.body;
     console.log(data)
-    
+    const licence=data.clicence;
     const type=data.type;
     console.log(type)
 
@@ -82,7 +82,7 @@ app.post("/registration",async(req,res)=>{
     }
 }
 
-if(type=='hospital')
+else if(type=='hospital' && license=='hosxml')
     {
     const hphone=data.hphone;
     const pass=data.hpassword;
@@ -117,7 +117,7 @@ if(type=='hospital')
     }
 }
 
-if(type=='privateconsultant')
+else if(type=='privateconsultant' && licence=="pridtaxml")
     {
     const cphone=data.cphone;
     const pass=data.cpassword;
@@ -153,6 +153,10 @@ if(type=='privateconsultant')
         res.send({staus:"error"})
     }
 }
+else{
+    return res.json({message:"licence id error"})
+}
+
 
 
 })
@@ -270,7 +274,7 @@ else{
 
 app.post("/home",(req,res)=>{
     const token=req.body.token;
-    console.log(token)
+
     try{
         const User=jwt.verify(token,JWT_SECRET,(err,payload)=>{
             if(err){
@@ -369,7 +373,7 @@ try {
     
     const allusers=await hospital.find({});
    const dis= allusers.map((item)=>{
-        return item.district
+        return item;
     })
 
     res.send(dis);
@@ -380,4 +384,19 @@ try {
 }
 })
 
+app.get("/privateinfo",async(req,res)=>{
+    try {
+        
+        const allusers=await consultant.find({});
+       const dis= allusers.map((item)=>{
+            return item;
+        })
+    
+        res.send(dis);
+        
+    } catch (error) {
+        console.log(error)
+        
+    }
+    })
 
