@@ -41,7 +41,7 @@ const consultant=require('./databaseModel/consultantData')
 app.post("/registration",async(req,res)=>{
     const data=req.body;
     console.log(data)
-    const licence=data.clicence;
+    const licence=data.licence;
     const type=data.type;
     console.log(type)
 
@@ -82,7 +82,7 @@ app.post("/registration",async(req,res)=>{
     }
 }
 
-else if(type=='hospital' && license=='hosxml')
+else if(type=='hospital' && licence=='hosxml')
     {
     const hphone=data.hphone;
     const pass=data.hpassword;
@@ -104,7 +104,7 @@ else if(type=='hospital' && license=='hosxml')
                 password:encryptedpassword,
                 hospitaltype:data.htype,
                 streetname:data.hstreetname,
-                licenceId:data.hlicence,
+                licenceId:data.licence,
                 pincode:data.hpincode,
                 district:data.hdistrict,
             })
@@ -116,6 +116,7 @@ else if(type=='hospital' && license=='hosxml')
         res.send({staus:"error"})
     }
 }
+
 
 else if(type=='privateconsultant' && licence=="pridtaxml")
     {
@@ -137,7 +138,7 @@ else if(type=='privateconsultant' && licence=="pridtaxml")
                 name:data.cname,
                 phoneno:data.cphone,
                 category:data.ccategory,
-                licenceId:data.clicence,
+                licenceId:data.licence,
                 gender:data.cgender,
                 email:data.cemail,
                 password:encryptedpassword,
