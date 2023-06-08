@@ -88,12 +88,16 @@ else if(type=='hospital' && licence=='hosxml')
     const pass=data.hpassword;
     const encryptedpassword=await bcrypt.hash(pass,10);
     const phsearch={"phoneno":hphone}
+    const nasearch={"hospitalname":data.hname}
     try {
         const oldUser=await hospital.findOne(phsearch)
-        console.log(oldUser)
+        const oldname=await hospital.findOne(nasearch);
         if(oldUser){
         return res.json({error:"registered already"});
         }
+        if(oldname){
+            return res.json({error:"Hospital name already exist"});
+            }
     
             await hospital.create({
                 usertype:type,
@@ -124,11 +128,16 @@ else if(type=='privateconsultant' && licence=="pridtaxml")
     const pass=data.cpassword;
     const encryptedpassword=await bcrypt.hash(pass,10);
     const phsearch={"phoneno":cphone}
+    const nasearch={"hospitalname":data.cname}
     try {
         const oldUser=await consultant.findOne(phsearch)
+        const oldname=await hospital.findOne(nasearch);
         console.log(oldUser)
         if(oldUser){
         return res.json({error:"registered already"});
+        }
+        if(oldname){
+            return res.json({error:"Doctor already exist"});
         }
         
     
@@ -389,15 +398,61 @@ app.get("/privateinfo",async(req,res)=>{
     try {
         
         const allusers=await consultant.find({});
-       const dis= allusers.map((item)=>{
-            return item;
-        })
+    //    const dis= allusers.map((item)=>{
+    //         return item;
+    //     })
     
-        res.send(dis);
+        res.send(allusers);
         
     } catch (error) {
         console.log(error)
         
     }
     })
+
+    const appgov=require('./databaseModel/AppointmentModel/AppointmentDataGov')
+
+    app.post('/home/takeappointment/slot',async(req,res)=>{
+        const data=req.body;
+        console.log(data)
+       const datas=data.formdata;
+    
+        try {
+        
+                await appgov.create({
+                    hospitaltype:datas.HospitalType,
+                    patientname:datas.patientName,
+                    patientphone:datas.patientid,
+                    DistrictName:datas.DistrictName,
+                    govhospitalname:datas.HospitalName,
+                    date:datas.Date,
+                    token:datas.tokenid,
+                    slotid:datas.slotid,
+                    time:datas.timeapp
+                })
+                res.send({staus:'ok', message:"token generated"})
+            
+        } catch (error) {
+            console.log(error)
+    
+            res.send({staus:"error"})
+        }
+
+    })
+
+    app.get("/appointmentinfo",async(req,res)=>{
+        try {
+            
+            const allusers=await appgov.find({});
+        //    const dis= allusers.map((item)=>{
+        //         return item;
+        //     })
+        
+            res.send(allusers);
+            
+        } catch (error) {
+            console.log(error)
+            
+        }
+        })
 
