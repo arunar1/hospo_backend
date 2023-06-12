@@ -169,8 +169,6 @@ app.post("/registration", async (req, res) => {
 
 })
 
-let logedin=false;
-
 
 app.post('/', async (req, res) => {
     console.log(req.body);
@@ -200,7 +198,6 @@ app.post('/', async (req, res) => {
                     return res.json({
                         status: 'ok', data: token, details: userid
                     })
-                    logedin=true;
                 }
                 else {
                     return res.json({ error: "error" });
@@ -229,7 +226,6 @@ app.post('/', async (req, res) => {
                     return res.json({
                         status: 'ok', data: token, details: userid
                     })
-                    logedin=true;
                 }
                 else {
                     return res.json({ error: "error" });
@@ -258,7 +254,6 @@ app.post('/', async (req, res) => {
                     return res.json({
                         status: 'ok', data: token, details: userid
                     })
-                    logedin=true;
                 }
                 else {
                     return res.json({ error: "error" });
@@ -378,41 +373,37 @@ app.post("/consultanthome", (req, res) => {
 })
 
 
-if(logedin){
-    app.get("/districtinfo", async (req, res) => {
-        try {
-    
-            const allusers = await hospital.find({});
-            const dis = allusers.map((item) => {
-                return item;
-            })
-    
-            res.send(dis);
-    
-        } catch (error) {
-            console.log(error)
-    
-        }
-    })
-}
+app.get("/districtinfo", async (req, res) => {
+    try {
 
-if(logedin){
-    app.get("/privateinfo", async (req, res) => {
-        try {
-    
-            const allusers = await consultant.find({});
-            //    const dis= allusers.map((item)=>{
-            //         return item;
-            //     })
-    
-            res.send(allusers);
-    
-        } catch (error) {
-            console.log(error)
-    
-        }
-    })
-}
+        const allusers = await hospital.find({});
+        const dis = allusers.map((item) => {
+            return item;
+        })
+
+        res.send(dis);
+
+    } catch (error) {
+        console.log(error)
+
+    }
+})
+
+app.get("/privateinfo", async (req, res) => {
+    try {
+
+        const allusers = await consultant.find({});
+        //    const dis= allusers.map((item)=>{
+        //         return item;
+        //     })
+
+        res.send(allusers);
+
+    } catch (error) {
+        console.log(error)
+
+    }
+})
 
 const appgov = require('./databaseModel/AppointmentModel/AppointmentDataGov')
 
@@ -444,23 +435,21 @@ app.post('/home/takeappointment/slot', async (req, res) => {
 
 })
 
-if(logedin){
-    app.get("/appointmentinfo", async (req, res) => {
-        try {
-    
-            const allusers = await appgov.find({});
-            //    const dis= allusers.map((item)=>{
-            //         return item;
-            //     })
-    
-            res.send(allusers);
-    
-        } catch (error) {
-            console.log(error)
-    
-        }
-    })
-}
+app.get("/appointmentinfo", async (req, res) => {
+    try {
+
+        const allusers = await appgov.find({});
+        //    const dis= allusers.map((item)=>{
+        //         return item;
+        //     })
+
+        res.send(allusers);
+
+    } catch (error) {
+        console.log(error)
+
+    }
+})
 
 
 // app.post('/deleteuserapp', async (req, res) => {
