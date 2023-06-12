@@ -406,32 +406,61 @@ app.get("/privateinfo", async (req, res) => {
 })
 
 const appgov = require('./databaseModel/AppointmentModel/AppointmentDataGov')
+const appcon=require('./databaseModel/AppointmentModel/AppointmentConData')
 
 app.post('/home/takeappointment/slot', async (req, res) => {
     const data = req.body;
     console.log(data)
     const datas = data.formdata;
+    if(datas.DoctorName){
+        try {
+    
+            await appgov.create({
+                hospitaltype: datas.HospitalType,
+                patientname: datas.patientName,
+                patientphone: datas.patientid,
+                DistrictName: datas.DistrictName,
+                govhospitalname: datas.DoctorName,
+                date: datas.Date,
+                token: datas.tokenid,
+                slotid: datas.slotid,
+                time: datas.timeapp,
+                category:datas.Category
+            })
+            res.send({ staus: 'ok', message: "token generated" })
+    
+        } catch (error) {
+            console.log(error)
+    
+            res.send({ staus: "error" })
+        }
+       }
+       else{
+        try {
 
-    try {
+            await appgov.create({
+                hospitaltype: datas.HospitalType,
+                patientname: datas.patientName,
+                patientphone: datas.patientid,
+                DistrictName: datas.DistrictName,
+                govhospitalname: datas.HospitalName,
+                date: datas.Date,
+                token: datas.tokenid,
+                slotid: datas.slotid,
+                time: datas.timeapp
+            })
+            res.send({ staus: 'ok', message: "token generated" })
+    
+        } catch (error) {
+            console.log(error)
+    
+            res.send({ staus: "error" })
+        }
+       }
 
-        await appgov.create({
-            hospitaltype: datas.HospitalType,
-            patientname: datas.patientName,
-            patientphone: datas.patientid,
-            DistrictName: datas.DistrictName,
-            govhospitalname: datas.HospitalName,
-            date: datas.Date,
-            token: datas.tokenid,
-            slotid: datas.slotid,
-            time: datas.timeapp
-        })
-        res.send({ staus: 'ok', message: "token generated" })
-
-    } catch (error) {
-        console.log(error)
-
-        res.send({ staus: "error" })
-    }
+  
+    
+   
 
 })
 

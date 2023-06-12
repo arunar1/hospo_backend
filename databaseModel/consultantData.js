@@ -25,8 +25,8 @@ const consultantInfo=new mongoose.Schema({
             required:true
         },
         licenceId:{
-            type:String,
-            required:true
+            type:String
+            
         },
         gender:{
             type:String,
