@@ -41,10 +41,10 @@ const consultant = require('./databaseModel/consultantData')
 
 app.post("/registration", async (req, res) => {
     const data = req.body;
-    console.log(data)
+    
     const licence = data.licence;
     const type = data.type;
-    console.log(type)
+
 
     if (type == 'patient') {
         const pphone = data.pphone;
@@ -54,7 +54,7 @@ app.post("/registration", async (req, res) => {
 
         try {
             const oldUser = await user.findOne(phsearch)
-            console.log(oldUser)
+            
             if (oldUser) {
                 return res.json({ error: " registered already" });
             }
@@ -130,7 +130,7 @@ app.post("/registration", async (req, res) => {
         try {
             const oldUser = await consultant.findOne(phsearch)
             const oldname = await hospital.findOne(nasearch);
-            console.log(oldUser)
+            
             if (oldUser) {
                 return res.json({ error: "registered already" });
             }
@@ -171,20 +171,20 @@ app.post("/registration", async (req, res) => {
 
 
 app.post('/', async (req, res) => {
-    console.log(req.body);
+   
     const login = req.body;
     logintype = login.usertype
     loginid = login.userid
     loginpass = login.password
     const idsearch = { "phoneno": loginid }
 
-    console.log(logintype)
+    
     if (logintype == null) {
         return res.json({ message: "choose account type" })
     }
 
     if (logintype == 'patient') {
-        console.log('hello')
+        
         const userid = await user.findOne(idsearch);
         console.log(userid)
 
@@ -214,7 +214,7 @@ app.post('/', async (req, res) => {
     }
     else if (logintype == 'hospital') {
         const userid = await hospital.findOne(idsearch);
-        console.log(userid)
+        
 
         try {
             if (!userid) {
@@ -242,7 +242,7 @@ app.post('/', async (req, res) => {
     }
     else if (logintype == 'privateconsultant') {
         const userid = await consultant.findOne(idsearch);
-        console.log(userid)
+        
 
         try {
             if (!userid) {
@@ -292,7 +292,7 @@ app.post("/home", (req, res) => {
         })
         console.log(User)
         const phone = User.phoneno;
-        console.log(phone)
+        
         const search = { "phoneno": phone }
         user.findOne(search)
             .then((data) => {
@@ -311,7 +311,7 @@ app.post("/home", (req, res) => {
 
 app.post("/hospitalhome", (req, res) => {
     const token = req.body.token;
-    console.log(token)
+    
     try {
         const User = jwt.verify(token, JWT_SECRET, (err, payload) => {
             if (err) {
@@ -322,9 +322,9 @@ app.post("/hospitalhome", (req, res) => {
                 return payload
             }
         })
-        console.log(User)
+       
         const phone = User.phoneno;
-        console.log(phone)
+       
         const search = { "phoneno": phone }
         hospital.findOne(search)
             .then((data) => {
@@ -344,7 +344,6 @@ app.post("/hospitalhome", (req, res) => {
 
 app.post("/consultanthome", (req, res) => {
     const token = req.body.token;
-    console.log(token)
     try {
         const User = jwt.verify(token, JWT_SECRET, (err, payload) => {
             if (err) {
@@ -355,9 +354,9 @@ app.post("/consultanthome", (req, res) => {
                 return payload
             }
         })
-        console.log(User)
+        
         const phone = User.phoneno;
-        console.log(phone)
+        
         const search = { "phoneno": phone }
         consultant.findOne(search)
             .then((data) => {
@@ -440,7 +439,7 @@ const appcon=require('./databaseModel/AppointmentModel/AppointmentConData')
 
 app.post('/home/takeappointment/slot', async (req, res) => {
     const data = req.body;
-    console.log(data)
+    
     const datas = data.formdata;
     if(datas.DoctorName){
         try {
@@ -495,7 +494,7 @@ app.post('/home/takeappointment/slot', async (req, res) => {
 })
 
 app.get("/appointmentinfo", async (req, res) => {
-    console.log(req.headers.token)
+    
     const token=req.headers.token;
     const User = jwt.verify(token, JWT_SECRET, (err, payload) => {
         if (err) {
@@ -506,7 +505,7 @@ app.get("/appointmentinfo", async (req, res) => {
             return payload
         }
     })
-    console.log(user)
+    
    if(User){
     try {
 
@@ -547,8 +546,7 @@ app.get("/appointmentinfo", async (req, res) => {
 
 app.post('/deleteuserapp', async (req, res) => {
     const appid = req.body.appdlt;
-    console.log(req.body);
-    console.log(appid);
+   
     const token=req.headers.token;
     const User = jwt.verify(token, JWT_SECRET, (err, payload) => {
         if (err) {
@@ -562,7 +560,7 @@ app.post('/deleteuserapp', async (req, res) => {
     if(User){
         try {
             const result = await appgov.findByIdAndRemove(appid);
-            console.log(result)
+           
             if (result) {
                 res.send({ status: 'ok', data: 'Appointment Cancelled' });
             } else {
