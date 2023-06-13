@@ -374,34 +374,64 @@ app.post("/consultanthome", (req, res) => {
 
 
 app.get("/districtinfo", async (req, res) => {
-    try {
+    const token=req.headers.token;
+    const User = jwt.verify(token, JWT_SECRET, (err, payload) => {
+        if (err) {
+            console.log('error')
 
-        const allusers = await hospital.find({});
-        const dis = allusers.map((item) => {
-            return item;
-        })
+        }
+        else {
+            return payload
+        }
+    })
+    if(User){
+        try {
 
-        res.send(dis);
-
-    } catch (error) {
-        console.log(error)
-
+            const allusers = await hospital.find({});
+            const dis = allusers.map((item) => {
+                return item;
+            })
+    
+            res.send(dis);
+    
+        } catch (error) {
+            console.log(error)
+    
+        }
+    }
+    else{
+        res.send("sorry some error")
     }
 })
 
 app.get("/privateinfo", async (req, res) => {
-    try {
+    const token=req.headers.token;
+    const User = jwt.verify(token, JWT_SECRET, (err, payload) => {
+        if (err) {
+            console.log('error')
 
-        const allusers = await consultant.find({});
-        //    const dis= allusers.map((item)=>{
-        //         return item;
-        //     })
+        }
+        else {
+            return payload
+        }
+    })
+    if(User){
+        try {
 
-        res.send(allusers);
-
-    } catch (error) {
-        console.log(error)
-
+            const allusers = await consultant.find({});
+            //    const dis= allusers.map((item)=>{
+            //         return item;
+            //     })
+    
+            res.send(allusers);
+    
+        } catch (error) {
+            console.log(error)
+    
+        }
+    }
+    else{
+        res.send(" some error")
     }
 })
 
@@ -465,12 +495,23 @@ app.post('/home/takeappointment/slot', async (req, res) => {
 })
 
 app.get("/appointmentinfo", async (req, res) => {
+    console.log(req.headers.token)
+    const token=req.headers.token;
+    const User = jwt.verify(token, JWT_SECRET, (err, payload) => {
+        if (err) {
+            console.log('error')
+
+        }
+        else {
+            return payload
+        }
+    })
+    console.log(user)
+   if(User){
     try {
 
         const allusers = await appgov.find({});
-        //    const dis= allusers.map((item)=>{
-        //         return item;
-        //     })
+        
 
         res.send(allusers);
 
@@ -478,6 +519,10 @@ app.get("/appointmentinfo", async (req, res) => {
         console.log(error)
 
     }
+   }
+   else{
+    res.send("Hehe")
+   }
 })
 
 
@@ -504,15 +549,30 @@ app.post('/deleteuserapp', async (req, res) => {
     const appid = req.body.appdlt;
     console.log(req.body);
     console.log(appid);
-    try {
-        const result = await appgov.findByIdAndRemove(appid);
-        console.log(result)
-        if (result) {
-            res.send({ status: 'ok', data: 'Appointment Cancelled' });
-        } else {
-            res.send({ status: 'error', data: 'Appointment not found' });
+    const token=req.headers.token;
+    const User = jwt.verify(token, JWT_SECRET, (err, payload) => {
+        if (err) {
+            console.log('error')
+
         }
-    } catch (error) {
-        res.send({ status: 'error', data: 'Error occurred while deleting the appointment' });
+        else {
+            return payload
+        }
+    })
+    if(User){
+        try {
+            const result = await appgov.findByIdAndRemove(appid);
+            console.log(result)
+            if (result) {
+                res.send({ status: 'ok', data: 'Appointment Cancelled' });
+            } else {
+                res.send({ status: 'error', data: 'Appointment not found' });
+            }
+        } catch (error) {
+            res.send({ status: 'error', data: 'Error occurred while deleting the appointment' });
+        }
+    }
+    else{
+        res.send("invaid")
     }
 });
