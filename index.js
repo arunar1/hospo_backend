@@ -574,3 +574,88 @@ app.post('/deleteuserapp', async (req, res) => {
         res.send("invaid")
     }
 });
+
+const aptime=require('./databaseModel/AppTImeModel/ApptimeModel')
+
+app.post('/appointmenttime',async(req,res)=>{
+    console.log(req.body)
+    const phoneno=req.body.userid;
+    const apptime=req.body.timeSlots;
+    console.log(apptime)
+    try {
+        await aptime.create({
+            userId:phoneno,
+            timeslot:apptime
+        })
+        res.send({ staus: 'ok', message: "generated" })
+
+    } catch (error) {
+        console.log(error)
+
+        res.send({ staus: "error" })
+    }
+   }
+
+)
+
+app.get("/appointmenttimeslot", async (req, res) => {
+    const token=req.headers.token;
+    const User = jwt.verify(token, JWT_SECRET, (err, payload) => {
+        if (err) {
+            console.log('error')
+
+        }
+        else {
+            return payload
+        }
+    })
+    if(User){
+        try {
+
+            const allusers = await aptime.find({});
+
+            console.log(allusers)
+            res.send(allusers);
+    
+        } catch (error) {
+            console.log(error)
+    
+        }
+    }
+    else{
+        res.send(" some error")
+    }
+})
+
+
+app.post('/dltappointmenttimeslot', async (req, res) => {
+    const appid = req.body.appdlt;
+   
+    const token=req.headers.token;
+    const User = jwt.verify(token, JWT_SECRET, (err, payload) => {
+        if (err) {
+            console.log('error')
+
+        }
+        else {
+            return payload
+        }
+    })
+    if(User){
+        console.log(appid)
+        try {
+            const result = await aptime.findByIdAndRemove(appid);
+           
+            if (result) {
+                res.send({ status: 'ok', data: 'Appointment Cancelled' });
+            } else {
+                res.send({ status: 'error', data: 'Appointment not found' });
+            }
+        } catch (error) {
+            res.send({ status: 'error', data: 'Error occurred while deleting' });
+        }
+    }
+    else{
+        res.send("invaid")
+    }
+});
