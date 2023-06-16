@@ -613,8 +613,6 @@ app.get("/appointmenttimeslot", async (req, res) => {
         try {
 
             const allusers = await aptime.find({});
-
-            console.log(allusers)
             res.send(allusers);
     
         } catch (error) {
