@@ -585,7 +585,7 @@ app.post('/appointmenttime',async(req,res)=>{
     try {
         await aptime.create({
             userId:phoneno,
-            timeslot:apptime
+            timeslot:{apptime}
         })
         res.send({ staus: 'ok', message: "generated" })
 
