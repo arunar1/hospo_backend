@@ -7,7 +7,7 @@ const apptimeinfo=new mongoose.Schema({
 
         },
         timeslot:{
-            type:Object,
+            type:Array,
             required:true,
 
         }
