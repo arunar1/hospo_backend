@@ -580,12 +580,12 @@ const aptime=require('./databaseModel/AppTImeModel/ApptimeModel')
 app.post('/appointmenttime',async(req,res)=>{
     console.log(req.body)
     const phoneno=req.body.userid;
-    const apptime=req.body.timeSlots;
+    const apptime=req.body.newTimeSlot;
     console.log(apptime)
     try {
         await aptime.create({
             userId:phoneno,
-            timeslot:{apptime}
+            timeslot:apptime
         })
         res.send({ staus: 'ok', message: "generated" })
 
