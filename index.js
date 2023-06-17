@@ -581,11 +581,13 @@ app.post('/appointmenttime',async(req,res)=>{
     console.log(req.body)
     const phoneno=req.body.userid;
     const apptime=req.body.newTimeSlot;
+    const hospital=req.body.hospitalname;
     console.log(apptime)
     try {
         await aptime.create({
             userId:phoneno,
-            timeslot:apptime
+            timeslot:apptime,
+            hospitalname:hospital
         })
         res.send({ staus: 'ok', message: "generated" })
 

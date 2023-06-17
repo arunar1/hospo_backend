@@ -6,6 +6,11 @@ const apptimeinfo=new mongoose.Schema({
             required:true
 
         },
+        hospitalname:{
+            type:String,
+            required:true
+
+        },
         timeslot:{
             type:Object,
             required:true,
