@@ -575,6 +575,38 @@ app.post('/deleteuserapp', async (req, res) => {
     }
 });
 
+app.post('/deleteuserallapp', async (req, res) => {
+    const appid = req.body.appdlt;
+   
+    const token=req.headers.token;
+    const User = jwt.verify(token, JWT_SECRET, (err, payload) => {
+        if (err) {
+            console.log('error')
+
+        }
+        else {
+            return payload
+        }
+    })
+    if(User){
+        try {
+            const result = await appgov.findByIdAndRemove(appid);
+           
+            if (result) {
+                res.send({ status: 'ok', data: 'Appointment Cancelled' });
+            } else {
+                res.send({ status: 'error', data: 'Appointment not found' });
+            }
+        } catch (error) {
+            res.send({ status: 'error', data: 'Error occurred while deleting the appointment' });
+        }
+    }
+    else{
+        res.send("invaid")
+    }
+});
+
+
 const aptime=require('./databaseModel/AppTImeModel/ApptimeModel')
 
 app.post('/appointmenttime',async(req,res)=>{
