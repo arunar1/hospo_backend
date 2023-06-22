@@ -691,3 +691,73 @@ app.post('/dltappointmenttimeslot', async (req, res) => {
         res.send("invaid")
     }
 });
+
+// app.post('/rescheduleappointment', async (req, res) => {
+//     console.log(req.body);
+//     const id=req.body._id;
+//     const time=req.body.timeapp;
+//     try {
+//         appgov.updateOne({_id:id,time})
+        
+//     } catch (error) {
+        
+//     }
+//   });
+// app.post('/rescheduleappointment', async (req, res) => {
+//     const id = req.body._id;
+//     const time = req.body.timeapp;
+//     const token=req.body.token;
+//     const slotid=req.body.slotid;
+//     console.log(req.body)
+  
+//     try {
+      
+  
+//       // Update the document with the provided _id
+//       await appgov.updateMany(
+//         { _id: ObjectID(id) },
+//         { $set: { time: time } },
+//         { $set: { token: token } },
+//         { $set: { slotid: slotid } },
+
+
+//       );
+  
+//       client.close();
+  
+//       res.send('Appointment rescheduled successfully!');
+//     } catch (error) {
+//       console.error(error);
+//       res.send('An error occurred while rescheduling the appointment.');
+//     }
+//   });
+app.post('/rescheduleappointment', async (req, res) => {
+    const data=req.body.formdata;
+    const id = data._id;
+    const time = data.timeapp;
+    const token = data.tokenid;
+    const slotid = data.slotid;
+    console.log(req.body);
+    console.log(id)
+  
+    try {
+      // Update the document with the provided _id
+      await appgov.updateMany(
+        { _id:id},
+        {
+          $set: {
+            time: time,
+            token: token,
+            slotid: slotid
+          }
+        }
+      );
+
+  
+      res.send('Appointment rescheduled successfully!');
+    } catch (error) {
+      console.error(error);
+      res.send('An error occurred while rescheduling the appointment.');
+    }
+  });
+  
