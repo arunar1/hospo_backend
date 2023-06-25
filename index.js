@@ -546,7 +546,6 @@ app.get("/appointmentinfo", async (req, res) => {
 
 app.post('/deleteuserapp', async (req, res) => {
     const appid = req.body.appdlt;
-   
     const token=req.headers.token;
     const User = jwt.verify(token, JWT_SECRET, (err, payload) => {
         if (err) {
@@ -758,6 +757,43 @@ app.post('/rescheduleappointment', async (req, res) => {
     } catch (error) {
       console.error(error);
       res.send('An error occurred while rescheduling the appointment.');
+    }
+  });
+  
+
+//   app.post('/deleteall', async (req, res) => {
+//      const appdata=req.body.appdata;
+    
+//     console.log(req.body);
+  
+//     try {
+//       appdata.map((data)=>{
+//         appgov.deleteone({_id:data._id});
+//       })
+  
+//       res.send('Appointment deleted successfully!');
+//     } catch (error) {
+//       console.error(error);
+//       res.send('An error occurred while deleting the appointment.');
+//     }
+//   });
+
+
+app.post('/deleteall', async (req, res) => {
+    const appdata = req.body.appdata;
+  
+    console.log(req.body);
+  
+    try {
+      appdata.map(async(data) => {
+        console.log( data._id)
+        appgov.findByIdAndRemove(data._id);
+      });
+  
+      res.send('Appointment deleted successfully!');
+    } catch (error) {
+      console.error(error);
+      res.send('An error occurred while deleting the appointment.');
     }
   });
   
