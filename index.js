@@ -779,21 +779,22 @@ app.post('/rescheduleappointment', async (req, res) => {
 //   });
 
 
+
 app.post('/deleteall', async (req, res) => {
+    count=0;
+  try {
     const appdata = req.body.appdata;
-  
-    console.log(req.body);
-  
-    try {
-      appdata.map(async(data) => {
-        console.log( data._id)
-        appgov.findByIdAndRemove(data._id);
-      });
-  
-      res.send('Appointment deleted successfully!');
-    } catch (error) {
-      console.error(error);
-      res.send('An error occurred while deleting the appointment.');
+    count=count+1
+    // Extract the _id values from the appdata array
+    const ids = appdata.map(data =>data._id);
+
+    // Delete all documents with the matching _id values
+    await appgov.deleteMany({ _id: { $in: ids } });
+    if(count==appdata.length){
+        res.send('Appointments deleted successfully!');
     }
-  });
-  
+  } catch (error) {
+    console.error(error);
+    res.send('An error occurred while deleting the appointments.');
+  }
+});
